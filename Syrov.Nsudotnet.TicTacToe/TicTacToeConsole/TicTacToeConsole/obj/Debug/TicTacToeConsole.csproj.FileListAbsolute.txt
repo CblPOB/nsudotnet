@@ -1,0 +1,7 @@
+C:\Users\nikita\source\repos\TicTacToeConsole\TicTacToeConsole\bin\Debug\TicTacToeConsole.exe.config
+C:\Users\nikita\source\repos\TicTacToeConsole\TicTacToeConsole\bin\Debug\TicTacToeConsole.exe
+C:\Users\nikita\source\repos\TicTacToeConsole\TicTacToeConsole\bin\Debug\TicTacToeConsole.pdb
+C:\Users\nikita\source\repos\TicTacToeConsole\TicTacToeConsole\obj\Debug\TicTacToeConsole.csprojResolveAssemblyReference.cache
+C:\Users\nikita\source\repos\TicTacToeConsole\TicTacToeConsole\obj\Debug\TicTacToeConsole.csproj.CoreCompileInputs.cache
+C:\Users\nikita\source\repos\TicTacToeConsole\TicTacToeConsole\obj\Debug\TicTacToeConsole.exe
+C:\Users\nikita\source\repos\TicTacToeConsole\TicTacToeConsole\obj\Debug\TicTacToeConsole.pdb
