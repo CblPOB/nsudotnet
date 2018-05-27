@@ -10,7 +10,7 @@ namespace Syrov.Nsudotnet.TicTacToe
     {
         static void Main(string[] args)
         {
-            ViewController gameView = new ViewController(3);
+            GameView newGame = new GameView(3);
         }
     }
 }

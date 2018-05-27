@@ -14,12 +14,12 @@ namespace Syrov.Nsudotnet.TicTacToe
     {
         public CellState[,] Cells { get; set; }
         public CellState SelfState { get; set; }
-        private int Size { get; set; }
+        private int _size { get; set; }
         private int _moveCount = 0;
 
         public FieldComponent(int size)
         {
-            this.Size = size;
+            this._size = size;
             this.SelfState = CellState.Empty;
             Cells = new CellState[size, size];
             for(int i = 0; i < size; i++)
@@ -31,9 +31,9 @@ namespace Syrov.Nsudotnet.TicTacToe
             }
         }
 
-        public Message setFieldComponentCellWithValue(int x, int y, CellState value) 
+        public Message SetFieldComponentCellWithValue(int x, int y, CellState value) 
         {
-            if (x > this.Size || y > this.Size || x < 0 || y < 0)
+            if (x > this._size || y > this._size || x < 0 || y < 0)
             {
                 return Message.WrongCoordinates;
 
@@ -46,22 +46,22 @@ namespace Syrov.Nsudotnet.TicTacToe
 
                     //winCheck in row & column
 
-                    for (int i = 0; i < this.Size; i++)
+                    for (int i = 0; i < this._size; i++)
                     {
                         if (this.Cells[x, i] != value) 
                             break;
-                        if (i == this.Size - 1)
+                        if (i == this._size - 1)
                         {
                             this.SelfState = value;
                             return Message.StateChanged;
                         }
                     }
 
-                    for (int i = 0; i < this.Size; i++)
+                    for (int i = 0; i < this._size; i++)
                     {
                         if (this.Cells[i, y] != value)
                             break;
-                        if (i == this.Size - 1)
+                        if (i == this._size - 1)
                         {
                             this.SelfState = value;
                             return Message.StateChanged;
@@ -72,11 +72,11 @@ namespace Syrov.Nsudotnet.TicTacToe
 
                     if (x == y)
                     {
-                        for (int i = 0; i < this.Size; i++)
+                        for (int i = 0; i < this._size; i++)
                         {
                             if (this.Cells[i, i] != value)
                                 break;
-                            if (i == this.Size - 1)
+                            if (i == this._size - 1)
                             {
                                 this.SelfState = value;
                                 return Message.StateChanged;
@@ -84,13 +84,13 @@ namespace Syrov.Nsudotnet.TicTacToe
                         }
                     }
 
-                    if (x + y == this.Size - 1)
+                    if (x + y == this._size - 1)
                     {
-                        for (int i = 0; i < this.Size; i++)
+                        for (int i = 0; i < this._size; i++)
                         {
-                            if (this.Cells[i, (this.Size - 1) - i] != value)
+                            if (this.Cells[i, (this._size - 1) - i] != value)
                                 break;
-                            if (i == this.Size - 1)
+                            if (i == this._size - 1)
                             {
                                 this.SelfState = value;
                                 return Message.StateChanged;
@@ -100,7 +100,7 @@ namespace Syrov.Nsudotnet.TicTacToe
 
                     //check for draw situation
 
-                    if (this._moveCount == (Math.Pow(this.Size, 2) - 1))
+                    if (this._moveCount == (Math.Pow(this._size, 2) - 1))
                         this.SelfState = CellState.Draw;
 
                     return Message.Cool;

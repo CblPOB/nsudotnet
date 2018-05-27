@@ -42,11 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Field.cs" />
-    <Compile Include="FieldComponent.cs" />
+    <Compile Include="Model\Field.cs" />
+    <Compile Include="Model\FieldComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewController.cs" />
+    <Compile Include="GameView.cs" />
+    <Compile Include="GameViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

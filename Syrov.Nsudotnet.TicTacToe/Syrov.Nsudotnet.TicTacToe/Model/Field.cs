@@ -8,32 +8,33 @@ namespace Syrov.Nsudotnet.TicTacToe
 {
     class Field
     {
-        private FieldComponent[,] GameField { get; set; }
-        private int Size { get; set; }
         public CellState SelfState { get; set; }
-        private int _moveCount = 0;
         public Tuple<int, int> CurrentAvalibleCell { get; set; }
+        private FieldComponent[,] _gameField { get; set; }
+        private int _size { get; set; }
+        private int _moveCount = 0;
+        
 
         public Field(int size)
         {
-            this.Size = size;
+            this._size = size;
             this.SelfState = CellState.Empty;
             this.CurrentAvalibleCell = null;
-            this.GameField = new FieldComponent[size, size];
+            this._gameField = new FieldComponent[size, size];
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
                 {
-                    this.GameField[i, j] = new FieldComponent(size);
+                    this._gameField[i, j] = new FieldComponent(size);
                 }
             }
         }
 
-        public Message setFieldCellWithValue(int xField, int yField, int xCell, int yCell, CellState value)
+        public Message SetFieldCellWithValue(int xField, int yField, int xCell, int yCell, CellState value)
         {
-            if (this.isValidCoordinates(xField, yField))
+            if (this.IsValidCoordinates(xField, yField))
             {
-                if (this.GameField[xField, yField].SelfState != CellState.Draw)
+                if (this._gameField[xField, yField].SelfState != CellState.Draw)
                 {
                     if (this.CurrentAvalibleCell != null)
                     {
@@ -43,15 +44,15 @@ namespace Syrov.Nsudotnet.TicTacToe
                     else
                         this.CurrentAvalibleCell = new Tuple<int, int>(xCell, yCell);
 
-                    Message responseFromCell = this.GameField[xField, yField]
-                        .setFieldComponentCellWithValue(xCell, yCell, value);
+                    Message responseFromCell = this._gameField[xField, yField]
+                        .SetFieldComponentCellWithValue(xCell, yCell, value);
 
                     if (responseFromCell == Message.Cool || responseFromCell == Message.StateChanged)
                     {
                         this.CurrentAvalibleCell = new Tuple<int, int>(xCell, yCell);
                         if (responseFromCell == Message.StateChanged)
                         {
-                            return this.winCheck(xField, yField, value);
+                            return this.WinCheck(xField, yField, value);
                         }
                       
                     }
@@ -67,59 +68,59 @@ namespace Syrov.Nsudotnet.TicTacToe
             }
         }
 
-        public CellState[,] getCellsStates()
+        public CellState[,] GetCellsStates()
         {
-            CellState[,] cellsStates = new CellState[this.Size, this.Size];
-            for (int i = 0; i < this.Size; i++)
+            CellState[,] cellsStates = new CellState[this._size, this._size];
+            for (int i = 0; i < this._size; i++)
             {
-                for (int j = 0; j < this.Size; j++)
+                for (int j = 0; j < this._size; j++)
                 {
-                    cellsStates[i, j] = this.GameField[i, j].SelfState;
+                    cellsStates[i, j] = this._gameField[i, j].SelfState;
                 }
             }
 
             return cellsStates;
         }
 
-        public CellState[,] getStatesOfCellAtIndex(int x, int y)
+        public CellState[,] GetStatesOfCellAtIndex(int x, int y)
         {
-            return this.GameField[x, y].Cells;
+            return this._gameField[x, y].Cells;
         }
 
-        public CellState getSelfStateOfCellAtindex(int x, int y)
+        public CellState GetSelfStateOfCellAtindex(int x, int y)
         {
-            return this.GameField[x, y].SelfState;
+            return this._gameField[x, y].SelfState;
         }
 
-        private Boolean isValidCoordinates(int x, int y)
+        private Boolean IsValidCoordinates(int x, int y)
         {
-            if (x >= 0 && x < this.Size && y >= 0 && y < this.Size)
+            if (x >= 0 && x < this._size && y >= 0 && y < this._size)
                 return true;
             else
                 return false;
         }
 
-        private Message winCheck(int x, int y, CellState value)
+        private Message WinCheck(int x, int y, CellState value)
         {
-            for (int i = 0; i < this.Size; i++)
+            for (int i = 0; i < this._size; i++)
             {
-                if (this.GameField[x, i].SelfState != value) 
+                if (this._gameField[x, i].SelfState != value) 
                     break;
-                if (i == this.Size - 1)
+                if (i == this._size - 1)
                 {
                     this.SelfState = value;
                     return Message.StateChanged;
                 }
             }
 
-            for (int i = 0; i < this.Size; i++)
+            for (int i = 0; i < this._size; i++)
             {
-                if (this.GameField[i, y].SelfState != value)
+                if (this._gameField[i, y].SelfState != value)
                 {
                     break;
                 }
 
-                if (i == this.Size - 1)
+                if (i == this._size - 1)
                 {
                     this.SelfState = value;
                     return Message.StateChanged;
@@ -130,11 +131,11 @@ namespace Syrov.Nsudotnet.TicTacToe
 
             if (x == y)
             {
-                for (int i = 0; i < this.Size; i++)
+                for (int i = 0; i < this._size; i++)
                 {
-                    if (this.GameField[i, i].SelfState != value)
+                    if (this._gameField[i, i].SelfState != value)
                         break;
-                    if (i == this.Size - 1)
+                    if (i == this._size - 1)
                     {
                         this.SelfState = value;
                         return Message.StateChanged;
@@ -142,13 +143,13 @@ namespace Syrov.Nsudotnet.TicTacToe
                 }
             }
 
-            if (x + y == this.Size - 1)
+            if (x + y == this._size - 1)
             {
-                for (int i = 0; i < this.Size; i++)
+                for (int i = 0; i < this._size; i++)
                 {
-                    if (this.GameField[i, (this.Size - 1) - i].SelfState != value)
+                    if (this._gameField[i, (this._size - 1) - i].SelfState != value)
                         break;
-                    if (i == this.Size - 1)
+                    if (i == this._size - 1)
                     {
                         this.SelfState = value;
                         return Message.StateChanged;
@@ -158,7 +159,7 @@ namespace Syrov.Nsudotnet.TicTacToe
 
             //check for draw situation
 
-            if (this._moveCount == (Math.Pow(this.Size, 2) - 1))
+            if (this._moveCount == (Math.Pow(this._size, 2) - 1))
             {
                 this.SelfState = CellState.Draw;
                 return Message.StateChanged;
